@@ -110,11 +110,12 @@ if __name__ == '__main__':
 	
 	(eps, eshape) = load_struc(args.fname)
 	res = 10
+	print(eps.shape)
 	(geolattice,boundaries,res,sources,fluxes) = parseStruc(args.pname)
 	
-	fig = plt.figure()
+	fig = plt.figure(dpi=150)
 	ax = plt.gca()
-	ax.imshow(eps[:,:,30].T, **default_eps_parameters, extent=[-eshape[0]/(2*res),eshape[0]/(2*res),
+	ax.imshow(eps[:,:,int(eps.shape[2]/2)].T, **default_eps_parameters, extent=[-eshape[0]/(2*res),eshape[0]/(2*res),
 														-eshape[1]/(2*res),eshape[1]/(2*res)])
 	
 	sdata = np.zeros([eshape[0], eshape[1]])
@@ -126,5 +127,4 @@ if __name__ == '__main__':
 	plotLineObjects(ax, fluxes, default_monitor_parameters)
 	plotBoundaries(ax, boundaries, default_boundary_parameters, eshape)
 	
-	
-	plt.show()
+	plt.savefig('sim_domain.png')
