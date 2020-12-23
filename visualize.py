@@ -45,8 +45,11 @@ def load_struc(fname):
 	eps = np.array(f[list(f.keys())[0]])
 	f.close()
 	eshape = np.array(eps.shape)
+	if eps.ndim > 2:
+		return(eps[:,:,int(eps.shape[2]/2)], eshape)
+	else:
+		return(eps, eshape)
 	
-	return(eps, eshape)
 	
 def parseV3(line):
 	lbuf = line.translate({ord(i): None for i in '#()\r\n'})
@@ -115,7 +118,7 @@ if __name__ == '__main__':
 	
 	fig = plt.figure(dpi=150)
 	ax = plt.gca()
-	ax.imshow(eps[:,:,int(eps.shape[2]/2)].T, **default_eps_parameters, extent=[-eshape[0]/(2*res),eshape[0]/(2*res),
+	ax.imshow(eps[:,:].T, **default_eps_parameters, extent=[-eshape[0]/(2*res),eshape[0]/(2*res),
 														-eshape[1]/(2*res),eshape[1]/(2*res)])
 	
 	sdata = np.zeros([eshape[0], eshape[1]])
